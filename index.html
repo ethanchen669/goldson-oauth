@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>金子 · 授权中转</title>
+  <style>
+    body { font-family: -apple-system, "PingFang SC", sans-serif; background: #FAF9F6; color: #1A1A1A;
+           display: flex; min-height: 100vh; align-items: center; justify-content: center; margin: 0; }
+    .card { text-align: center; padding: 32px 24px; }
+    .brand { display: inline-block; background: #1A1A1A; color: #F4D05A; font-weight: 800;
+             letter-spacing: 3px; border-radius: 12px; padding: 8px 16px; margin-bottom: 20px; }
+    a.btn { display: inline-block; margin-top: 16px; background: linear-gradient(135deg, #F4D05A, #D1A029);
+            color: #1A1A1A; font-weight: 600; text-decoration: none; border-radius: 10px; padding: 12px 24px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">金子</div>
+    <p id="msg">正在返回金子…</p>
+    <a class="btn" id="go" href="#">若未自动跳转，点此继续</a>
+  </div>
+  <script>
+    (function () {
+      var q = window.location.search || '';
+      if (q.indexOf('code=') >= 0) {
+        var target = 'goldson://auth' + q;
+        var go = document.getElementById('go');
+        go.href = target;
+        // 轻延迟让按钮先渲染（浏览器会弹「打开金子」确认）
+        setTimeout(function () { window.location.href = target; }, 300);
+      } else {
+        document.getElementById('msg').textContent = '缺少授权码，请返回金子重试登录。';
+        document.getElementById('go').style.display = 'none';
+      }
+    })();
+  </script>
+</body>
+</html>
